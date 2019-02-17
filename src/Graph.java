@@ -52,7 +52,10 @@ public class Graph {
     //Called to mark a vertex as inactive. Inactive vertices have no neighbors,
     //and thus have a degree of 0.
     public void removeVertex (int vertex) {
-        graph.get(vertex).clear();
+        ArrayList<Integer> list = graph.get(vertex);
+        for (int step = 0; step < list.size(); step++)
+            graph.get(step).remove((Integer)vertex);
+        list.clear();
     }
     
     //Returns a list of vertex ID#s. A vertex is in the list if it is active
@@ -73,7 +76,8 @@ public class Graph {
     public boolean connected () {
         marked = new boolean[NUMBER_OF_VERTICIES];
         int index = 0;
-        while (graph.get(index).isEmpty()) index++;
+        while (index < NUMBER_OF_VERTICIES && graph.get(index).isEmpty())
+            index++;
         traverseGraph(index);
         for (; index < NUMBER_OF_VERTICIES; index++)
         	if (!marked[index] && !graph.get(index).isEmpty())
